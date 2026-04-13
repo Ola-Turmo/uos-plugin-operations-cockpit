@@ -1,0 +1,12 @@
+{
+  "instance_id": "fa6b6ca2",
+  "prd_file": "uos-plugin-operations-cockpit.md",
+  "project_name": "uos-plugin-operations-cockpit",
+  "type": "NEW",
+  "priority": "normal",
+  "repo": "split-repo",
+  "started_at": "2026-04-12T15:28:07",
+  "status": "in_progress",
+  "last_heartbeat": "2026-04-12T16:00:00",
+  "notes": "Has implementation in progress (src/, tests/, PLAN.md)."
+}

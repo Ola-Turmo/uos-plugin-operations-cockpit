@@ -1,0 +1,7 @@
+{
+  "instanceId": "fa6b6ca2",
+  "projectName": "uos-plugin-operations-cockpit",
+  "status": "running",
+  "last_heartbeat": "2026-04-13T14:51:35.981634",
+  "notes": "Manual recovery in progress - fixing TypeScript build setup"
+}
