@@ -4,6 +4,13 @@
   "private": true,
   "type": "module",
   "description": "Operations cockpit plugin for UOS health, drift evidence, and operating reviews.",
+  "keywords": [
+    "uos",
+    "paperclip-plugin",
+    "operations",
+    "drift-review",
+    "observability"
+  ],
   "scripts": {
     "test": "node --test tests/smoke.test.mjs",
     "plugin:build": "node ./esbuild.config.mjs",

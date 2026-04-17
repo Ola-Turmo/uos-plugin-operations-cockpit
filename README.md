@@ -4,6 +4,13 @@
 
 Built as part of the UOS split workspace on top of [Paperclip](https://github.com/paperclipai/paperclip), which remains the upstream control-plane substrate.
 
+## Boundary Summary
+
+- Owns health, drift evidence, operating reviews, and operator-facing remediation entrypoints.
+- Consumes canonical lifecycle evidence from [uos-core](https://github.com/Ola-Turmo/uos-core).
+- Surfaces connector and tool health from [uos-plugin-connectors](https://github.com/Ola-Turmo/uos-plugin-connectors) and the narrow tool plugins.
+- Does not own first-run setup UX or the canonical apply and rollback engine.
+
 ## What This Repo Owns
 
 - Health dashboards, operating reviews, and alert or context surfaces.
