@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Paperclip operations cockpit for drift, review, and portfolio surfaces.",
+  "description": "Operations cockpit plugin for UOS health, drift evidence, and operating reviews.",
   "scripts": {
     "test": "node --test tests/smoke.test.mjs",
     "plugin:build": "node ./esbuild.config.mjs",
