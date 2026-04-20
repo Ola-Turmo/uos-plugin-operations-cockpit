@@ -219,7 +219,7 @@ function createFallbackCrossAreaRuntime(): CrossAreaRuntime {
           } as TResult;
         case "compat:summary":
           return {
-            overallStatus: "compatible",
+            overallStatus: "supported",
             consumers: [
               {
                 consumerId: "uos-plugin-operations-cockpit",
@@ -230,59 +230,44 @@ function createFallbackCrossAreaRuntime(): CrossAreaRuntime {
               },
               {
                 consumerId: "uos-plugin-connectors",
-                currentStatus: "degraded",
+                currentStatus: "supported",
                 validationMode: "runtime",
                 maintained: true,
                 evidenceSource: "compat:summary",
               },
             ],
-            supportedConsumers: ["uos-plugin-operations-cockpit"],
-            degradedConsumers: ["uos-plugin-connectors"],
+            supportedConsumers: ["uos-plugin-operations-cockpit", "uos-plugin-connectors"],
+            degradedConsumers: [],
             blockedConsumers: [],
           } as TResult;
         case "classifyFailure":
           return {
             failure: {
-              id: "failure-slack-xaf-002",
-              category: "callback_mismatch",
-              severity: "high",
-              providerId: "slack",
+              id: "failure-none",
+              category: "none",
+              severity: "info",
+              providerId: "connectors",
               detectedAt: "2026-04-03T15:05:00.000Z",
-              retryable: true,
-              suggestedRetryDelayMs: 30000,
-              maxRetries: 3,
-              displayMessage: "Callback signature mismatch after upstream provider change",
-              evidence: [
-                { type: "header", key: "retry-after", value: "30", containsSensitiveData: false },
-                { type: "request", key: "x-request-id", value: "xaf-002-callback-mismatch", containsSensitiveData: false },
-              ],
+              retryable: false,
+              suggestedRetryDelayMs: 0,
+              maxRetries: 0,
+              displayMessage: "No connector failures detected.",
+              evidence: [],
             },
           } as TResult;
         case "reconcileCallbacks":
           return {
             result: {
-              id: "reconcile-slack-gap",
-              providerId: "slack",
-              status: "partial",
+              id: "reconcile-none",
+              providerId: "connectors",
+              status: "no_gaps_found",
               startedAt: "2026-04-03T15:05:00.000Z",
               completedAt: "2026-04-03T15:06:00.000Z",
-              detectedGaps: [
-                {
-                  id: "gap-1",
-                  providerId: "slack",
-                  eventType: "message.created",
-                  gapStart: "2026-04-03T10:00:00Z",
-                  gapEnd: "2026-04-03T11:00:00Z",
-                  reason: "provider_outage",
-                  estimatedMissedCount: 4,
-                  reconciled: false,
-                  unresolvedEvents: [{ id: "evt-1", eventType: "message.created", errorMessage: "Signature mismatch" }],
-                },
-              ],
-              totalReplayed: 2,
-              totalUnresolved: 1,
-              stateConsistent: false,
-              summary: "Replayed 2 callback(s) and left 1 unresolved event.",
+              detectedGaps: [],
+              totalReplayed: 0,
+              totalUnresolved: 0,
+              stateConsistent: true,
+              summary: "No callback gaps detected.",
             },
           } as TResult;
         default:
@@ -467,6 +452,10 @@ function getRealDriftItems(snapshot: FoundationSnapshot): Array<{ category: stri
 }
 
 function getRealConnectorFailures(snapshot: FoundationSnapshot): Array<{ providerId: string; issue: string; evidence: string[] }> {
+  if (snapshot.connectorFailure.category === "none") {
+    return [];
+  }
+
   return [
     {
       providerId: snapshot.connectorFailure.providerId,
@@ -477,6 +466,10 @@ function getRealConnectorFailures(snapshot: FoundationSnapshot): Array<{ provide
 }
 
 function createEvidenceReferenceFromConnectorSnapshot(snapshot: FoundationSnapshot): EvidenceReference[] {
+  if (snapshot.connectorFailure.category === "none" || snapshot.connectorFailure.evidence.length === 0) {
+    return [];
+  }
+
   return snapshot.connectorFailure.evidence.map((entry, index) =>
     createEvidenceReference(
       "failure",
